@@ -64,7 +64,7 @@ Différence de points
 
 Une mise sur la différence du résultat à la fin de la partie. Donc si l'équipe A marque 20 points et l'équipe B, 3 points, on a une différence de points de 17.
 
-(|(PF_A + PA_B) - (PF_B + PA_A)|) / 4
+(|(PF_A - PA_B)| + |(PF_B - PA_A)|) / 4
 
 Le miseur peut choisir si le résultat final sera plus élevé que cette différence ou plus basse.
 Une réussite sur cette mise rapporte 150% la mise initiale.
@@ -133,7 +133,7 @@ Sujet	Note
 BD	
 Connexion	/1
 Création	/1
-Modèle MVC	
+Fonctionnalités MVC	
 Vue	/5
 Modèle	/5
 Contrôleur	/5
