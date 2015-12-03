@@ -76,8 +76,8 @@ def PastSchedule():
 
 def FutureSchedule():
     conn = sqlite3.connect('BD.db')
-    conn.execute("drop table if exists Standings")
-    conn.execute("CREATE TABLE Standings(id int,Name text,pct real,pf int,pa int)")
+    conn.execute("drop table if exists Future")
+    conn.execute("CREATE TABLE Future(Host text,Visitor text,Location Text)")
     conn.commit()
     conn.close()
     Week = datetime.date.today().isocalendar()[1] - datetime.date(2015,9,3).isocalendar()[1]
@@ -89,6 +89,33 @@ def FutureSchedule():
         response.close
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(html, 'html.parser')
+
+        rows = soup.find_all("tr")
+        team1 = ""
+        team2 = ""
+        i = 0
+        loc = ""
+        for row in rows:
+
+            cols = row.find_all("td")
+            if(cols != []):
+                for col in cols:
+                    if(col.contents[0].string != None):
+                        loc = (col.contents[0].string)
+                    #if(col.contents[1].contents[0].string != None):
+                       # print(col.contents[1].contents[0].string)
+                    aa = col.find_all("a",class_="team-name")
+
+                    for a in aa:
+                        if(i == 0):
+                           team1 = a.contents[0].string
+                           i = 1
+                        else:
+                            team2 = a.contents[0].string
+                            i = 0
+
+                BDFuture(team1,team2,loc)
+
 
 
 
@@ -107,6 +134,13 @@ def BDPast(score):
     conn.commit()
     conn.close()
 
-#standing()
+def BDFuture(team1,team2,loc):
+    print(team1,team2,loc)
+    conn = sqlite3.connect('BD.db')
+    conn.execute("INSERT INTO Future VALUES (?,?,?)",(team1,team2,loc))
+    conn.commit()
+    conn.close()
+
+standing()
 PastSchedule()
-#FutureSchedule()
+FutureSchedule()
